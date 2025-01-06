@@ -7,9 +7,8 @@ export async function Signup(name: string, email: string, password: string, clas
       body: JSON.stringify({ name, email, password, class_user }),
   });
   const data = await response.json();
-  if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message);
+  if (data.success === false) {
+    return(data.message)
   }
   return data;
 }
