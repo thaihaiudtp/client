@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { GetAllClass} from "@/service/class";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 export interface ClassItem {
   id: string;
   class_name: string;
@@ -10,6 +11,7 @@ export interface ClassItem {
 export default function Home() {
   const [classData, setClassData] = useState<ClassItem[]>([]);
   const [err, setErr] = useState("");
+  const router = useRouter();
   useEffect(() => {
     const fetchClass = async () => {
       try {
@@ -36,7 +38,7 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
           {classData.map((classData)=>{
             return(
-              <div  key = {classData.slug} className="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
+              <div  key = {classData.slug} onClick={() => router.push(`/${classData.slug}`)} className="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
               <div className="mb-4  rounded p-2">
                 <Image src="/english.jpg" alt="Product 1"
                   className=" w-full object-contain" 

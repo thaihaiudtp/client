@@ -79,7 +79,7 @@ export default function Header(){
                     <li className='max-lg:border-b max-lg:py-3 px-3' onClick={handleMenuItemClick}><a onClick={() => router.push('/')}
                         className='text-[#006eff] hover:text-[#0000ff] text-1xl block font-semibold'>Home</a></li>
                     <li className='max-lg:border-b max-lg:py-3 px-3' onClick={handleMenuItemClick}><a onClick={() => router.push('/course/my-course')}
-                        className='text-[#333] hover:text-[#007bff] text-1xl block font-semibold'>My Class</a></li>
+                        className='text-[#333] hover:text-[#007bff] text-1xl block font-semibold'>My Point</a></li>
                     </ul>
                 </div>
                 <div className="flex items-center gap-x-6 gap-y-4 ml-auto">
