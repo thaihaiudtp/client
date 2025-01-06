@@ -1,12 +1,16 @@
 'use client'
 import Image from "next/image";
 import {usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 //import { jwtDecode } from "jwt-decode";
 interface User {
     name: string;
     email: string;
+}
+const user_fake = {
+    name: "ha",
+    email: "ha@gmail.com",
 }
 export default function Header(){
     const router = useRouter();
@@ -33,11 +37,13 @@ export default function Header(){
         Cookies.remove('token');
         window.location.href = '/login'; 
     }
-    const user_fake = {
-        name: "ha",
-        email: "ha@gmail.com",
-    }
-    setUser(user_fake);
+    useEffect(() => {
+        setUser(user_fake);
+    },[])
+    
+
+    
+    
     if(pathName === "/login" || pathName === "/signup"){
         return null;
     }
@@ -72,14 +78,8 @@ export default function Header(){
                     </li>
                     <li className='max-lg:border-b max-lg:py-3 px-3' onClick={handleMenuItemClick}><a onClick={() => router.push('/')}
                         className='text-[#006eff] hover:text-[#0000ff] text-1xl block font-semibold'>Home</a></li>
-                    <li className='max-lg:border-b max-lg:py-3 px-3' onClick={handleMenuItemClick}><a onClick={() => router.push('/course/lop-10')}
-                        className='text-[#333] hover:text-[#007bff] text-1xl block font-semibold'>Lớp 10</a></li>
-                    <li className='max-lg:border-b max-lg:py-3 px-3' onClick={handleMenuItemClick}><a onClick={() => router.push('/course/lop-11')}
-                        className='text-[#333] hover:text-[#007bff] text-1xl block font-semibold'>Lớp 11</a></li>
-                    <li className='max-lg:border-b max-lg:py-3 px-3' onClick={handleMenuItemClick}><a onClick={() => router.push('/course/lop-12')}
-                        className='text-[#333] hover:text-[#007bff] text-1xl block font-semibold'>Lớp 12</a></li>
                     <li className='max-lg:border-b max-lg:py-3 px-3' onClick={handleMenuItemClick}><a onClick={() => router.push('/course/my-course')}
-                        className='text-[#333] hover:text-[#007bff] text-1xl block font-semibold'>My Course</a></li>
+                        className='text-[#333] hover:text-[#007bff] text-1xl block font-semibold'>My Class</a></li>
                     </ul>
                 </div>
                 <div className="flex items-center gap-x-6 gap-y-4 ml-auto">
@@ -93,7 +93,7 @@ export default function Header(){
                                 onClick={handleClick}
                                 className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300"
                                 >
-                                <Image src="https://i.pinimg.com/236x/5e/e0/82/5ee082781b8c41406a2a50a0f32d6aa6.jpg" alt="Avatar" className="w-full h-full object-cover" />
+                                <Image src="https://i.pinimg.com/236x/5e/e0/82/5ee082781b8c41406a2a50a0f32d6aa6.jpg" alt="Avatar" className="w-full h-full object-cover" width={40} height={40}/>
                                 </button>
                     
                                 {isOpen && (
