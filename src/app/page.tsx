@@ -11,12 +11,18 @@ export interface ClassItem {
 }
 export default function Home() {
   const token = Cookies.get('token');
+  const role = Number(Cookies.get('role'));
   const [classData, setClassData] = useState<ClassItem[]>([]);
   const [err, setErr] = useState("");
   const router = useRouter();
   useEffect(() => {
     if(!token){
       router.push('/login'); 
+    }
+    if(role === 3){
+      router.push('/nopermise');
+    } else if(role === 1) {
+      router.push('/admin/dashboard');
     }
     const fetchClass = async () => {
       try {
@@ -29,7 +35,7 @@ export default function Home() {
       }
     }
     fetchClass();
-  }, [router, token])
+  }, [router, token, role])
   return (
     <>
     {err && (

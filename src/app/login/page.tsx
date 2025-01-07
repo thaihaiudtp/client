@@ -18,9 +18,14 @@ export default function LoginPage(){
             console.log(res);
             Cookies.set('token', res.token);
             const decodedToken: { role: number } = jwtDecode(res.token);
+            Cookies.set('role', decodedToken.role.toString());
             if (decodedToken.role !== 0) {
                 router.push('/admin/dashboard');
-            } else {
+            } 
+            if(decodedToken.role === 3){
+                router.push('/nopermise')
+            }
+            else {
                 router.push('/');
             }
         } catch (error) {

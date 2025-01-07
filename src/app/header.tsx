@@ -45,7 +45,7 @@ export default function Header(){
 
     
     
-    if(pathName === "/login" || pathName === "/signup"){
+    if(pathName === "/login" || pathName === "/signup" || pathName === "/nopermise"){
         return null;
     }
     return(
