@@ -1,9 +1,8 @@
 'use client'
-import Image from "next/image";
 import { useState } from 'react';
 import { Signup } from '@/service/auth'; 
 import { useRouter } from 'next/navigation';
-
+import Link from 'next/link';
 export default function Register(){
     const router = useRouter();
     const [name, setName] = useState('');
@@ -29,8 +28,7 @@ export default function Register(){
     return(
         <div className="font-[sans-serif] relative">
             <div className="h-[240px] font-[sans-serif]">
-                <Image
-                src="https://readymadeui.com/cardImg.webp" alt="Banner Image" className="w-full h-full object-cover" />
+                
             </div>
 
             <div className="relative -mt-40 m-4">
@@ -92,7 +90,7 @@ export default function Register(){
                     <button  type="submit" className="w-full shadow-xl py-2.5 px-5 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none transition-all">
                     Register
                     </button>
-                    <p className="text-gray-800 text-sm mt-8 text-center">Already have an account? <a href="" className="text-blue-500 font-semibold hover:underline ml-1">Login here</a></p>
+                    <p className="text-gray-800 text-sm mt-8 text-center">Already have an account? <Link href="/login" className="text-blue-500 font-semibold hover:underline ml-1">Login here</Link></p>
                 </div>
                 </form>
             </div>

@@ -3,16 +3,21 @@ import Image from "next/image";
 import { GetAllClass} from "@/service/class";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 export interface ClassItem {
   id: string;
   class_name: string;
   slug: string;
 }
 export default function Home() {
+  const token = Cookies.get('token');
   const [classData, setClassData] = useState<ClassItem[]>([]);
   const [err, setErr] = useState("");
   const router = useRouter();
   useEffect(() => {
+    if(!token){
+      router.push('/login'); 
+    }
     const fetchClass = async () => {
       try {
         const data = await GetAllClass();
@@ -24,7 +29,7 @@ export default function Home() {
       }
     }
     fetchClass();
-  }, [])
+  }, [router, token])
   return (
     <>
     {err && (
