@@ -3,14 +3,10 @@ import Image from "next/image";
 import {usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-//import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 interface User {
     name: string;
     email: string;
-}
-const user_fake = {
-    name: "ha",
-    email: "ha@gmail.com",
 }
 export default function Header(){
     const router = useRouter();
@@ -18,6 +14,7 @@ export default function Header(){
     const [user, setUser] = useState<User | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const token = Cookies.get('token');
     const handleOpenClick = () => {
         console.log("Menu mở");
         setIsMenuOpen(true); 
@@ -38,7 +35,11 @@ export default function Header(){
         window.location.href = '/login'; 
     }
     useEffect(() => {
-        setUser(user_fake);
+        if(token){
+            const decodedToken = jwtDecode<User>(token);
+            setUser(decodedToken)
+        }
+        
     },[])
     
 

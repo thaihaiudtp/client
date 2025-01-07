@@ -1,10 +1,11 @@
 'use client'
 import Image from "next/image";
 import {Login} from "@/service/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { jwtDecode } from "jwt-decode";
 export default function LoginPage(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,12 +17,22 @@ export default function LoginPage(){
             const res = await Login(email, password);
             console.log(res);
             Cookies.set('token', res.token);
-            router.push('/');
+            const decodedToken: { role: number } = jwtDecode(res.token);
+            if (decodedToken.role !== 0) {
+                router.push('/admin/dashboard');
+            } else {
+                router.push('/');
+            }
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Có lỗi xảy ra!');
         }
         
     }
+    useEffect(() => {
+        if (Cookies.get('token')) {
+            router.push('/');
+        }
+    })
     return (
         <div className="font-[sans-serif] max-w-7xl mx-auto h-screen">
             <div className="grid md:grid-cols-2 items-center gap-8 h-full">
