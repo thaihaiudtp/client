@@ -22,9 +22,6 @@ export default function LoginPage(){
             if (decodedToken.role !== 0) {
                 router.push('/admin/dashboard');
             } 
-            if(decodedToken.role === 3){
-                router.push('/nopermise')
-            }
             else {
                 router.push('/');
             }
