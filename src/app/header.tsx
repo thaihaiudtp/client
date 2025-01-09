@@ -45,7 +45,7 @@ export default function Header(){
 
     
     
-    if(pathName === "/login" || pathName === "/signup" || pathName === "/nopermise"){
+    if(pathName === "/login" || pathName === "/signup" || pathName.startsWith('/admin')){
         return null;
     }
     return(

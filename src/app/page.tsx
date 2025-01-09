@@ -19,9 +19,7 @@ export default function Home() {
     if(!token){
       router.push('/login'); 
     }
-    if(role === 3){
-      router.push('/nopermise');
-    } else if(role === 1) {
+    if(role === 1) {
       router.push('/admin/dashboard');
     }
     const fetchClass = async () => {
