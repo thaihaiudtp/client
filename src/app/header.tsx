@@ -40,7 +40,7 @@ export default function Header(){
             setUser(decodedToken)
         }
         
-    },[])
+    },[token])
     
 
     

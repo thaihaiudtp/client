@@ -1,9 +1,11 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Signup } from '@/service/auth'; 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Cookies from "js-cookie";
 export default function Register(){
+    const token = Cookies.get("token");
     const router = useRouter();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -25,6 +27,11 @@ export default function Register(){
           }
           
     };
+    useEffect(()=>{
+        if(token){
+            router.push('/');
+        }
+    },[token, router])
     return(
         <div className="font-[sans-serif] relative">
             <div className="h-[240px] font-[sans-serif]">

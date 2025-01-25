@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 
 interface SignupResponse {
   success: boolean;
@@ -7,11 +8,13 @@ interface LoginResponse {
   success: boolean;
   message: string;
   token: string;
+  role: number;
 }
+const url = "https://c15c7662-ad85-4a34-9170-43f42728a191.us-east-1.cloud.genez.io"
 export async function Signup(name: string, email: string, password: string, class_user: string): Promise<SignupResponse> {
-  const url = 'https://46572290-9c8d-4920-9040-dc6e13a21dc5.us-east-1.cloud.genez.io/api/v1/auth/register';
+ 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`${url}/api/v1/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +31,6 @@ export async function Signup(name: string, email: string, password: string, clas
     return data;
   } catch (error) {
     if (error instanceof Error) {
-      console.error('Signup error:', error.message);
       throw new Error(error.message);
     }
     // Trường hợp lỗi không rõ ràng
@@ -36,9 +38,9 @@ export async function Signup(name: string, email: string, password: string, clas
   }
 }
 export async function Login(email: string, password: string): Promise<LoginResponse> {
-  const url = 'https://46572290-9c8d-4920-9040-dc6e13a21dc5.us-east-1.cloud.genez.io/api/v1/auth/login';
+  
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`${url}/api/v1/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -52,13 +54,17 @@ export async function Login(email: string, password: string): Promise<LoginRespo
     if (!data.success) {
       throw new Error(data.message || 'Unknown error occurred');
     }
+    Cookies.set('token', data.token);
+    Cookies.set('role', data.role.toString());
     return data;
   } catch (error) {
     if (error instanceof Error) {
-      console.error('Signup error:', error.message);
       throw new Error(error.message);
     }
     // Trường hợp lỗi không rõ ràng
     throw new Error('An unexpected error occurred');
   }
+}
+export async function handleLogout(){
+  Cookies.remove('token');
 }
