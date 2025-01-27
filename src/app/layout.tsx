@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: "Easy English",
@@ -18,6 +18,7 @@ export default function RootLayout({
        className="bg-gray-100"
       >
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
