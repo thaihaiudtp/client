@@ -2,6 +2,7 @@
 import SidebarAdminPage from "@/app/sidebar";
 import { useEffect, useState} from "react";
 import { useRouter, useParams } from "next/navigation";
+import { getTokenFromCookies } from "@/service/auth";
 import { CreateQuestion, GetOneTest, ActiveTest, AddTestToClass, GetAllClass } from "@/service/admin";
 export interface OneTestItem {
     _id: string;
@@ -49,6 +50,7 @@ export default function OneTestPage(){
     const [correct_answer, setCorrect_answer] = useState("");
     const params = useParams();
     const testId: string = params?.id as string;
+    const token = getTokenFromCookies();
     console.log(testId);
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -108,6 +110,9 @@ export default function OneTestPage(){
         }
     }
     useEffect(() => {
+        if(!token){
+            router.push('/login')
+        }
         const fetchTest = async () => {
           try {
             const data = await GetOneTest(testId);
