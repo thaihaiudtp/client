@@ -2,21 +2,28 @@
 import SidebarAdminPage from "@/app/sidebar";
 import { useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
-import { CreateClass } from "@/service/admin";
-import { GetAllClass } from "@/service/admin";
-export interface ClassItem {
+import { CreateTest } from "@/service/admin";
+import { GetAllTest } from "@/service/admin";
+export interface TestItem {
     _id: string;
-    class_name: string;
+    name_test: string;
     slug: string;
+    description_test: string;
+    diffcult_test: string;
+    duration: number;
+    status_test: number;
 }
-export default function ClassAdminPage(){
+export default function TestAdminPage(){
     const router = useRouter();
-    const [classData, setClassData] = useState<ClassItem[]>([]);
+    const [testData, setTestData] = useState<TestItem[]>([]);
     const [err, setErr] = useState("");
     const [errClass, setErrClass] = useState("");
     const [loading, setLoading] = useState(true); 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [className, setClassName] = useState("");
+    const [testName, setTestName] = useState("");
+    const [testDes, setTestDes] = useState("");
+    const [testDiff, setTestDiff] = useState("");
+    const [testTime, setTestTime] = useState<number>(Number);
     const handleOpenModal = () => {
         setIsModalOpen(true);
     };
@@ -27,7 +34,7 @@ export default function ClassAdminPage(){
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault(); 
             try {
-                await CreateClass(className);
+                await CreateTest(testName, testDes, testDiff, testTime);
                 alert("Tạo lớp thành công");
                 window.location.reload();
             } catch (error) {
@@ -37,14 +44,14 @@ export default function ClassAdminPage(){
     useEffect(() => {
         const fetchClass = async () => {
           try {
-            const data = await GetAllClass();
+            const data = await GetAllTest();
             console.log(data.data)
-            setClassData(Array.isArray(data.data) ? data.data : [])
+            setTestData(Array.isArray(data.data) ? data.data : [])
           } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Có lỗi xảy ra";
             setErr(errorMessage);
           } finally {
-            setLoading(false); 
+            setLoading(false); // Khi dữ liệu được tải xong, set loading = false
         }
         }
         fetchClass();
@@ -74,7 +81,7 @@ export default function ClassAdminPage(){
                                     </svg>
                                 </div>
                                 <div  onClick={handleOpenModal} className="border-2 border-gray-800 w-48 h-[42px] mb-6 rounded-xl bg-green-400 hover:bg-green-600 mt-6">
-                                    <span className="ml-2">Create Class</span>
+                                    <span className="ml-2">Create Test</span>
                                 </div>
 
                                 {isModalOpen && (
@@ -87,12 +94,49 @@ export default function ClassAdminPage(){
                                         )}  
                                     <form onSubmit={handleSubmit}>
                                         <div className="mb-4">
-                                            <label className="block text-gray-700">Class Name</label>
+                                            <label className="block text-gray-700">Test Name</label>
                                             <input 
-                                            onChange={(e) => {setClassName(e.target.value)}}
+                                            onChange={(e) => {setTestName(e.target.value)}}
                                             type="text"
                                             className="border p-2 w-full rounded text-gray-700"
                                             placeholder="Enter class name"
+                                            required
+                                            />
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block text-gray-700">Test Description</label>
+                                            <input 
+                                            onChange={(e) => {setTestDes(e.target.value)}}
+                                            type="text"
+                                            className="border p-2 w-full rounded text-gray-700"
+                                            placeholder="Enter test description"
+                                            required
+                                            />
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block text-gray-700">Test Difficult</label>
+                                            <select 
+                                                onChange={(e) => setTestDiff(e.target.value)} 
+                                                className="border p-2 w-full rounded text-gray-700" 
+                                                required
+                                            >
+                                                <option value="">Select difficulty</option>
+                                                <option value="easy">Easy</option>
+                                                <option value="medium">Medium</option>
+                                                <option value="difficult">Difficult</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block text-gray-700">Test Time Limit</label>
+                                            <input 
+                                            onChange={(e) => {           
+                                                const value = parseInt(e.target.value, 10); // Chuyển đổi giá trị input sang số nguyên
+                                                setTestTime(value);
+                                            }}
+                                            type="number"
+                                            className="border p-2 w-full rounded text-gray-700"
+                                            placeholder="Enter time limit in minutes"
+                                            min={30}
                                             required
                                             />
                                         </div>
@@ -110,7 +154,7 @@ export default function ClassAdminPage(){
                             </div>
                             <div className="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700">
                                 <div className="relative overflow-x-auto">
-                                    <p className="text-2xl text-gray-800">Class</p>
+                                    <p className="text-2xl text-gray-800">Test</p>
                                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
@@ -121,10 +165,16 @@ export default function ClassAdminPage(){
                                                     Slug
                                                 </th>
                                                 <th scope="col" className="px-6 py-3">
-                                                    Student
+                                                    Description
                                                 </th>
                                                 <th scope="col" className="px-6 py-3">
-                                                    Test
+                                                    Difficult
+                                                </th>
+                                                <th scope="col" className="px-6 py-3">
+                                                    Time
+                                                </th>
+                                                <th scope="col" className="px-6 py-3">
+                                                    Status
                                                 </th>
                                                 <th scope="col" className="px-6 py-3">
                                                     Active
@@ -132,22 +182,32 @@ export default function ClassAdminPage(){
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {classData.map((classes, i) => (
+                                            {testData.map((Test, i) => (
                                                 <tr key= {i} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                                                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {classes.class_name}
+                                                        {Test.name_test}
                                                     </th>
                                                     <td className="px-6 py-4">
-                                                        {classes.slug}
+                                                        {Test.slug}
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        Student
+                                                        {Test.description_test}
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <span>Test</span>
+                                                        {Test.diffcult_test}
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <a href="#">Edit</a>
+                                                        {Test.duration}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {Test.status_test === 0 ? (
+                                                            <span>Close</span>
+                                                        ):(
+                                                            <span>Open</span>
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <a onClick={() => {router.push(`/admin/test/${Test._id}`)}}>Edit</a>
                                                     </td>
                                             </tr>  
                                             ))}

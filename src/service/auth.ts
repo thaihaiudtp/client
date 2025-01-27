@@ -68,3 +68,6 @@ export async function Login(email: string, password: string): Promise<LoginRespo
 export async function handleLogout(){
   Cookies.remove('token');
 }
+export function getTokenFromCookies() {
+  return Cookies.get("token");
+}

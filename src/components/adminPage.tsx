@@ -19,7 +19,7 @@ export default function AdminPage(){
                             Class
                         </p>
                     </div>
-                    <div className="flex items-center justify-center rounded-sm bg-blue-400 h-48">
+                    <div onClick={() => {router.push("/admin/test")}} className="flex items-center justify-center rounded-sm bg-blue-400 h-48">
                         <p className="text-2xl text-white text-bond">
                             Test
                         </p>
