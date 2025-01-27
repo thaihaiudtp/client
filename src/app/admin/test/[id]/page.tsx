@@ -139,7 +139,7 @@ export default function OneTestPage(){
           }
           }
         fetchClass();
-      },[testId])
+      },[testId, token, router])
     return(
         <>
             {loading ? (
