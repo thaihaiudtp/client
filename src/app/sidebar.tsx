@@ -11,9 +11,9 @@ export default function SidebarAdminPage(){
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    const HandleLogout = () => {
+    const HandleLogout = async () => {
         try {
-          handleLogout();
+          await handleLogout();
           router.push("/login");
         } catch (error) {
           console.error("Lỗi khi logout:", error);

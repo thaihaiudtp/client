@@ -65,7 +65,7 @@ export async function Login(email: string, password: string): Promise<LoginRespo
     throw new Error('An unexpected error occurred');
   }
 }
-export function handleLogout(){
+export async function handleLogout(){
   Cookies.remove('token');
 }
 export function getTokenFromCookies() {
