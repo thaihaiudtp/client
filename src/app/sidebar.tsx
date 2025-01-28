@@ -1,10 +1,8 @@
 'use client'
 
 import { handleLogout } from "@/service/auth";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 export default function SidebarAdminPage(){
-    const router = useRouter();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const handleToggleSidebar = () => {
@@ -14,7 +12,7 @@ export default function SidebarAdminPage(){
     const HandleLogout = async () => {
         try {
           await handleLogout();
-          router.push("/login");
+          window.location.reload();
         } catch (error) {
           console.error("Lỗi khi logout:", error);
         }
