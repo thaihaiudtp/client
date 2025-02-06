@@ -137,15 +137,15 @@ export async function CreateTest(name_test: string, description_test: string, di
     }
 }
     
-export async function GetAllClass() {
+export async function GetAllClass(testId: string) {
     try {
-        const response = await fetch(`${url}/api/v1/admin/all-class`/*'http://localhost:7021/api/v1/admin/all-class''https://46572290-9c8d-4920-9040-dc6e13a21dc5.us-east-1.cloud.genez.io/api/v1/student/all-class'*/,
+        const response = await fetch(`http://localhost:7021/api/v1/admin/all-class/${testId}`/*'https://46572290-9c8d-4920-9040-dc6e13a21dc5.us-east-1.cloud.genez.io/api/v1/student/all-class'*/,
             {
                 method: 'GET',    
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
-                }
+                },
             }
         );
         const data: GetClassResponse = await response.json();

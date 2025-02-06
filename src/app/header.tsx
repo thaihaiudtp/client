@@ -4,6 +4,7 @@ import {usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { handleLogout } from "@/service/auth";
 interface User {
     name: string;
     email: string;
@@ -30,10 +31,6 @@ export default function Header(){
     const handleClick = () => {
         setIsOpen(prevState => !prevState);
       };
-    const handleLogout = () => {
-        Cookies.remove('token');
-        window.location.href = '/login'; 
-    }
     useEffect(() => {
         if(token){
             const decodedToken = jwtDecode<User>(token);

@@ -128,7 +128,7 @@ export default function OneTestPage(){
         fetchTest();
         const fetchClass = async () => {
             try {
-              const data = await GetAllClass();
+              const data = await GetAllClass(testId);
               console.log(data.data)
               setClassData(Array.isArray(data.data) ? data.data : [])
             } catch (error) {
@@ -306,6 +306,12 @@ export default function OneTestPage(){
                                                     <span onClick={handleCloseModalAddTest} className="sr-only">Close modal</span>
                                                     </button>
                                                 </div>
+                                                {classData.length === 0 ? (
+                                                    <div className="p-4 md:p-5 space-y-4">
+                                                        <p className="text-gray-600">You have added test to all class</p>
+                                                    </div>
+                                                ):(
+                                                <>
                                                 <div className="p-4 md:p-5 space-y-4">
                                                     {classData.map((classItem) => (
                                                     <label key={classItem._id} className="flex items-center space-x-3">
@@ -335,6 +341,9 @@ export default function OneTestPage(){
                                                     Cancel
                                                     </button>
                                                 </div>
+                                                </>
+                                                )}
+
                                                 </div>
                                             </div>
                                             </div>
